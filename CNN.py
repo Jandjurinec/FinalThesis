@@ -51,10 +51,6 @@ class CNN_optimization:
         self.X_train, self.y_train, self.X_test, self.y_test = train_test_split(X, y, test_size=0.2)
 
     def get_metrics(self, N: np.ndarray) -> tuple:
-        lr_schedule = keras.optimizers.schedules.ExponentialDecay(
-            initial_learning_rate=N[0],
-            decay_steps=10000,
-            decay_rate=0.9)
-        optimizer = keras.optimizers.SGD(learning_rate=lr_schedule, momentum=N[3])
+        optimizer = keras.optimizers.SGD(learning_rate=N[0], momentum=N[3])
         model = get_CNN_model(optimizer, l2_reg = N[2])
         return train(model, self.X_train, self.X_test, self.y_train, self.y_test, epochs=int(N[1]), verbose=False)
